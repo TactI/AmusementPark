@@ -40,6 +40,8 @@
         <activity android:name=".MainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 广告页面1-->
         <activity android:name=".ui.BannerOneActivity" android:label="第一页"/>
+        <!-- 广告页面2-->
+        <activity android:name=".ui.BannerTwoActivity" android:label="第二页"/>
     </application>
 
 </manifest>

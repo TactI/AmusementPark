@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.example.xiaoli.amusementpark.R;
 import com.example.xiaoli.amusementpark.ui.BannerOneActivity;
+import com.example.xiaoli.amusementpark.ui.BannerTwoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -199,6 +200,8 @@ public class MainFragment extends Fragment{
                 public void onClick(View view) {
                     if ((position%bannerTexts.length)==0){
                         startActivity(new Intent(getActivity(),BannerOneActivity.class));
+                    }else if ((position%bannerTexts.length)==1){
+                        startActivity(new Intent(getActivity(),BannerTwoActivity.class));
                     }
                 }
             });
