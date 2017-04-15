@@ -39,7 +39,7 @@ public class MainFragment extends Fragment{
     // 广告语
     private String[] bannerTexts = { "因为专业 所以卓越", "坚持创新 行业领跑", "诚信 专业 双赢", "精细 和谐 大气 开放" };
     // 广告图素材
-    private int[] bannerImages = { R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4 };
+    private int[] bannerImages = { R.drawable.banner1, R.drawable.banner2, R.drawable.banner3, R.drawable.banner4 };
     // 圆圈标志位
     private int pointIndex = 0;
     private static int pointClickPosition = 0; //point点击的位置

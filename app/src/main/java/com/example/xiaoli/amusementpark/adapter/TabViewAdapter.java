@@ -24,8 +24,8 @@ import java.util.List;
 public class TabViewAdapter extends FragmentPagerAdapter{
     private Context mContext;
     private List<Fragment> datas=new ArrayList<>();
+    private int[] bgs={R.drawable.bgs1,R.drawable.bgs2,R.drawable.bgs3};
     private String[] titles={"首页","景点","订单"};
-    private int[] image={R.drawable.home1,R.drawable.place1,R.drawable.order1};
     private LayoutInflater inflater;
 
     public TabViewAdapter(FragmentManager fm,List<Fragment> datas,Context mContext) {
@@ -39,7 +39,6 @@ public class TabViewAdapter extends FragmentPagerAdapter{
     public Fragment getItem(int position) {
         return datas.get(position);
     }
-
     @Override
     public int getCount() {
         return datas.size();
@@ -54,7 +53,7 @@ public class TabViewAdapter extends FragmentPagerAdapter{
         TextView textview = (TextView) view.findViewById(R.id.tab_tv1);
         ImageView imageview = (ImageView) view.findViewById(R.id.tab_iv1);
         textview.setText(titles[position]);
-        imageview.setImageResource(image[position]);
+        imageview.setBackgroundResource(bgs[position]);
         return view;
     }
 }

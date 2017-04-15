@@ -10,6 +10,8 @@ package com.example.xiaoli.amusementpark.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,10 +24,11 @@ import android.widget.Toast;
 import com.example.xiaoli.amusementpark.MainActivity;
 import com.example.xiaoli.amusementpark.R;
 import com.example.xiaoli.amusementpark.entity.User;
+import com.example.xiaoli.amusementpark.utils.L;
 import com.example.xiaoli.amusementpark.utils.ShareUtils;
 import com.example.xiaoli.amusementpark.utils.UtilTools;
 import com.example.xiaoli.amusementpark.view.CustomProgress;
-
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 
 import cn.bmob.v3.exception.BmobException;
@@ -36,15 +39,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btn_login;
     private CheckBox cb;
     private TextView tv_rest,tv_register;
-    private EditText et_user,et_password;
+    private MaterialEditText et_user,et_password;
     private CustomProgress dialog;
+
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
     }
-
     private void initView() {
         dialog=new CustomProgress(getApplicationContext(),R.style.Custom_Progress);
         btn_login= (Button) findViewById(R.id.btn_login);
@@ -53,8 +56,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btn_login.setOnClickListener(this);
         tv_rest.setOnClickListener(this);
         tv_register.setOnClickListener(this);
-        et_user= (EditText) findViewById(R.id.et_user);
-        et_password= (EditText) findViewById(R.id.et_password);
+        et_user= (MaterialEditText) findViewById(R.id.et_user);
+        et_password= (MaterialEditText) findViewById(R.id.et_password);
         tv_title= (TextView) findViewById(R.id.tv_title);
         UtilTools.setFont2(this,tv_title);
         cb= (CheckBox) findViewById(R.id.cb);
@@ -96,7 +99,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 finish();
                             }else{
                                 dialog.del();
-                                Toast.makeText(LoginActivity.this,"用户名或密码错误！",Toast.LENGTH_SHORT).show();
+                                if (e.getErrorCode()==9016){
+                                    Toast.makeText(LoginActivity.this,"网络错误！",Toast.LENGTH_SHORT).show();
+                                    et_user.setError("网络错误！");
+                                }
+                                else if (e.getErrorCode()==101){
+                                    Toast.makeText(LoginActivity.this,"用户名或密码错误！",Toast.LENGTH_SHORT).show();
+                                    et_user.setError("用户名或密码错误！");
+                                    et_password.setText("");
+                                }
                             }
                         }
                     });

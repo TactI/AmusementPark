@@ -2,7 +2,6 @@ package com.example.xiaoli.amusementpark;
 
 
 
-import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -12,10 +11,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.xiaoli.amusementpark.adapter.TabViewAdapter;
 import com.example.xiaoli.amusementpark.fragment.MainFragment;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    //按下Back键的时间
+    private long firsttime=0;
     //ViewPager
     private ViewPager mViewPager;
     //Tablayout
@@ -92,6 +95,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tab.setCustomView(adapter.getTabView(i));//将adapter设置好的获取图片和文字的方法设置到视图中
             }
         }
+        /*mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                tab.getCustomView().findViewById(R.id.tab_tv1).setFocusable(true);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                tab.getCustomView().findViewById(R.id.tab_tv1).setFocusable(false);
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });*/
         tv_title.setText(titles[mViewPager.getCurrentItem()]);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -157,6 +177,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.iv_user:
                 drawerlayout.closeDrawer(Gravity.LEFT);
                 break;
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode==event.KEYCODE_BACK){
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void exit() {
+        if ((System.currentTimeMillis() - firsttime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                    Toast.LENGTH_SHORT).show();
+            firsttime = System.currentTimeMillis();
+        } else {
+            finish();
+            System.exit(0);
         }
     }
 }

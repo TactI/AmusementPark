@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@drawable/login_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
@@ -16,40 +16,40 @@
     <LinearLayout
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:src="@drawable/user"/>
-        <EditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_user"
             android:hint="手机号码"
             android:maxLines="1"
+            android:inputType="phone"
             android:layout_width="200dp"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            app:met_primaryColor="@color/colorPrimary"
+            app:met_floatingLabel="highlight"
+            app:met_maxCharacters="11"
+            app:met_autoValidate="true"
+            app:met_clearButton="true"  />
     </LinearLayout>
     <RelativeLayout
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/img_one"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:src="@drawable/password"/>
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_toRightOf="@+id/img_one"
-            android:hint="密  码"
-            android:maxLines="1"
-            android:inputType="textPassword"
-            android:layout_width="200dp"
-            android:layout_height="50dp" />
+            android:layout_height="45dp"
+            android:src="@drawable/password"
+            android:layout_alignBottom="@+id/et_password"/>
         <CheckBox
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:id="@+id/cb"
             android:layout_below="@+id/img_one"
             android:layout_alignLeft="@+id/img_one"
@@ -68,6 +68,22 @@
             android:textSize="15sp"
             android:gravity="center"
             android:text="忘记密码？"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_password"
+            android:hint="密  码"
+            android:maxLines="1"
+            android:inputType="textPassword"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/img_one"
+            android:layout_marginLeft="5dp"
+            app:met_primaryColor="@color/colorPrimary"
+            app:met_floatingLabel="highlight"
+            app:met_autoValidate="true"
+            app:met_clearButton="true" />
+
+
     </RelativeLayout>
     <Button
         android:id="@+id/btn_login"
