@@ -9,6 +9,7 @@ package com.example.xiaoli.amusementpark.ui;
  */
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,13 +30,15 @@ import com.example.xiaoli.amusementpark.utils.ShareUtils;
 import com.example.xiaoli.amusementpark.utils.UtilTools;
 import com.example.xiaoli.amusementpark.view.CustomProgress;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.romainpiel.shimmer.Shimmer;
+import com.romainpiel.shimmer.ShimmerTextView;
 
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView tv_title;
+    private ShimmerTextView tv_title;
     private Button btn_login;
     private CheckBox cb;
     private TextView tv_rest,tv_register;
@@ -58,8 +61,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tv_register.setOnClickListener(this);
         et_user= (MaterialEditText) findViewById(R.id.et_user);
         et_password= (MaterialEditText) findViewById(R.id.et_password);
-        tv_title= (TextView) findViewById(R.id.tv_title);
+        tv_title= (ShimmerTextView) findViewById(R.id.tv_title);
         UtilTools.setFont2(this,tv_title);
+        Shimmer shimmer=new Shimmer();
+        shimmer.setDuration(3000).setDirection(Shimmer.ANIMATION_DIRECTION_LTR);
+        shimmer.start(tv_title);
         cb= (CheckBox) findViewById(R.id.cb);
         //设置选中状态
         boolean isChecked= ShareUtils.getBoolean(this,"keeppass",false);
@@ -96,6 +102,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 dialog.del();
                                 //跳转
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                //登陆成功
+                                ShareUtils.putBoolean(LoginActivity.this,"isLogin",true);
+                                ShareUtils.putString(LoginActivity.this,"user_name",phone);
                                 finish();
                             }else{
                                 dialog.del();

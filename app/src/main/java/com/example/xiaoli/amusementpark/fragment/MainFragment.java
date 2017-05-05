@@ -9,12 +9,17 @@ package com.example.xiaoli.amusementpark.fragment;
  */
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,8 +27,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.xiaoli.amusementpark.R;
+import com.example.xiaoli.amusementpark.adapter.HomeAdapter;
+import com.example.xiaoli.amusementpark.entity.HomeJavaBean;
 import com.example.xiaoli.amusementpark.ui.BannerOneActivity;
 import com.example.xiaoli.amusementpark.ui.BannerTwoActivity;
 
@@ -33,13 +41,24 @@ import java.util.List;
 public class MainFragment extends Fragment{
     // 声明控件
     private ViewPager mViewPager;
+    private RecyclerView mRecycleView;
+    //轮播图数据
     private List<ImageView> mlist;
+    //卡片数据
+    private List<HomeJavaBean> homeJavaBeanList;
+    //适配器
+    private HomeAdapter homeAdapter;
+
     private TextView mTextView;
     private LinearLayout mLinearLayout;
-    // 广告语
+    // 广告语  素材
     private String[] bannerTexts = { "因为专业 所以卓越", "坚持创新 行业领跑", "诚信 专业 双赢", "精细 和谐 大气 开放" };
-    // 广告图素材
     private int[] bannerImages = { R.drawable.banner1, R.drawable.banner2, R.drawable.banner3, R.drawable.banner4 };
+    //recycleView素材
+    private String[] text={"主题景区","天气指南","相关活动","游玩策略","表演时间","精彩演绎"};
+    private int[]  image={R.drawable.theme,R.drawable.weather,R.drawable.activity,R.drawable.strategy,R.drawable.showtime,R.drawable.show};
+
+    private int[]  color={R.color.colorTheme,R.color.colorWeather,R.color.colorStratrgy,R.color.colorActivity,R.color.colorShowtime,R.color.colorShow};
     // 圆圈标志位
     private int pointIndex = 0;
     private static int pointClickPosition = 0; //point点击的位置
@@ -76,6 +95,7 @@ public class MainFragment extends Fragment{
     }
 
     private void findView(View view) {
+        mRecycleView= (RecyclerView) view.findViewById(R.id.mRecycleView);
         mViewPager = (ViewPager)view.findViewById(R.id.mViewPager);
         mTextView = (TextView)view.findViewById(R.id.tv_bannertext);
         mLinearLayout = (LinearLayout)view.findViewById(R.id.points);
@@ -83,6 +103,24 @@ public class MainFragment extends Fragment{
     }
 
     private void initData() {
+        homeJavaBeanList=new ArrayList<>();
+        for (int i=0;i<6;i++){
+            HomeJavaBean bean=new HomeJavaBean(image[i],text[i],color[i]);
+            homeJavaBeanList.add(bean);
+        }
+        homeAdapter=new HomeAdapter(getActivity(),homeJavaBeanList);
+        homeAdapter.setOnItemClickListener(new HomeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getActivity(),"点击"+position+"个",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mRecycleView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        mRecycleView.setAdapter(homeAdapter);
+        SpacesItemDecoration decoration=new SpacesItemDecoration(16);
+        mRecycleView.addItemDecoration(decoration);
+
         mlist = new ArrayList<ImageView>();
         View view;
         LinearLayout.LayoutParams params;
@@ -129,6 +167,25 @@ public class MainFragment extends Fragment{
             });
         }
     }
+    //设置recycleView的间隔
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int space;
+        public SpacesItemDecoration(int space) {
+            this.space=space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            outRect.left=space;
+            outRect.right=space;
+            outRect.bottom=space;
+            if(parent.getChildAdapterPosition(view)==0){
+                outRect.top=space;
+            }
+        }
+    }
+
     //实现VierPager监听器接口
     class BannerListener implements ViewPager.OnPageChangeListener{
 

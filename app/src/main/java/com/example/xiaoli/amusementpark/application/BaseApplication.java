@@ -11,6 +11,7 @@ package com.example.xiaoli.amusementpark.application;
 import android.app.Application;
 
 import com.example.xiaoli.amusementpark.utils.StaticClass;
+import com.kymjs.rxvolley.RxVolley;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobSMS;
@@ -21,5 +22,7 @@ public class BaseApplication extends Application{
         super.onCreate();
         //初始化Bmob
         Bmob.initialize(this, StaticClass.BMOB_APP_ID);
+        //初始化Rxvolley
+        //new RxVolley.Builder().httpMethod(RxVolley.Method.POST).shouldCache(false);
     }
 }

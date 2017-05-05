@@ -37,15 +37,39 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     //Bmob
-    compile 'cn.bmob.android:bmob-sdk:3.5.0'
+    compile ('cn.bmob.android:bmob-sdk:3.5.0'){
+        exclude group: 'io.reactivex:rxandroid'
+        exclude group: 'io.reactivex:rxjava'
+        exclude group: 'com.squareup.okio'
+        exclude group: 'com.squareup.okhttp3',module:'okhttp'
+    }
     //Bmob短信
     compile 'cn.bmob.android:bmob-sms:1.0.1'
     //TabLayout
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:design:24.2.1'
     //Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
     //文本框
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     //circleimageview
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    //cardview
+    compile 'com.android.support:cardview-v7:24.2.1'
+    //节操播放器
+    compile 'fm.jiecao:jiecaovideoplayer:5.5.2'
+    //shimmer
+    compile 'com.romainpiel.shimmer:library:1.4.0@aar'
+    //Rxvolley
+    compile ('com.kymjs.rxvolley:rxvolley:1.1.4'){
+        exclude group: 'com.squareup.okhttp3',module:'okhttp'
+        exclude group: 'com.squareup.okio'
+        exclude group: 'io.reactivex'
+    }
+    //RxVolley下载模块
+    compile ('com.kymjs.rxvolley:okhttp:1.1.0'){
+        exclude group: 'com.squareup.okio'
+        exclude group: 'com.squareup.okhttp3'
+    }
+    //EventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

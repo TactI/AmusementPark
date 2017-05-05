@@ -5,14 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
-    <TextView
+    <com.romainpiel.shimmer.ShimmerTextView
         android:id="@+id/tv_title"
         android:paddingTop="150dp"
         android:textSize="50sp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="游票票"/>
+        android:textColor="#444"
+        android:text="游票票"
+        app:reflectionColor="#f00"/>
     <LinearLayout
         android:gravity="center"
         android:orientation="horizontal"
@@ -37,6 +39,7 @@
             app:met_autoValidate="true"
             app:met_clearButton="true"  />
     </LinearLayout>
+
     <RelativeLayout
         android:layout_marginTop="10dp"
         android:gravity="center"
@@ -58,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:id="@+id/tv_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,6 +88,7 @@
 
 
     </RelativeLayout>
+
     <Button
         android:id="@+id/btn_login"
         android:layout_marginTop="20dp"

@@ -5,7 +5,7 @@ package com.example.xiaoli.amusementpark.adapter;
  *    文件名：    TabViewAdapter
  *    创建者：    XiaoLi
  *    创建时间：  2017/3/16  16:59
- *    描述：      ViewPager适配器
+ *    描述：      主布局ViewPager适配器
  */
 
 import android.content.Context;
@@ -25,7 +25,7 @@ public class TabViewAdapter extends FragmentPagerAdapter{
     private Context mContext;
     private List<Fragment> datas=new ArrayList<>();
     private int[] bgs={R.drawable.bgs1,R.drawable.bgs2,R.drawable.bgs3};
-    private String[] titles={"首页","景点","订单"};
+    private String[] titles={"首页","景点","我的"};
     private LayoutInflater inflater;
 
     public TabViewAdapter(FragmentManager fm,List<Fragment> datas,Context mContext) {

@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!--获取sd卡写的权限，用于文件上传和下载-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <use-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></use-permission>
+    <use-permission android:name="android.permission.RESTART_PACKAGES"></use-permission>
     <!--允许读取手机状态 用于创建BmobInstallation-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
@@ -37,11 +40,13 @@
         <!-- 重置密码页-->
         <activity android:name=".ui.ResetPasswordActivity" android:label="重置密码"/>
         <!-- 主页-->
-        <activity android:name=".MainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".MainActivity"  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 广告页面1-->
         <activity android:name=".ui.BannerOneActivity" android:label="第一页"/>
         <!-- 广告页面2-->
         <activity android:name=".ui.BannerTwoActivity" android:label="第二页"/>
+        <!-- 个人信息页-->
+        <activity android:name=".ui.MyDetailActivity" />
     </application>
 
 </manifest>

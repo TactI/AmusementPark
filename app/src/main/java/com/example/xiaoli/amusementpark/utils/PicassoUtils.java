@@ -12,6 +12,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -27,6 +29,11 @@ public class PicassoUtils {
                 .resize(width, height)
                 .centerCrop()
                 .into(imageView);
+    }
+    //加载没有缓存的图片
+    public  static void loadImageViewNoCache(Context context, String imgUrl, ImageView imageView){
+        Picasso.with(context).load(imgUrl).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView);
+
     }
     //加载图片有默认图片
     public static void loagImageViewHolder(Context context,String imgUrl,int loadImg,int errorImg,ImageView imageView){

@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorTheme">#3366cc</color>
+    <color name="colorWeather">#FF4040</color>
+    <color name="colorStratrgy">#ffcc99</color>
+    <color name="colorActivity">#99cc66</color>
+    <color name="colorShowtime">#FF6A6A</color>
+    <color name="colorShow">	#7B68EE</color>
 </resources>

@@ -15,6 +15,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.example.xiaoli.amusementpark.MainActivity;
 import com.example.xiaoli.amusementpark.R;
 import com.example.xiaoli.amusementpark.utils.ShareUtils;
 import com.example.xiaoli.amusementpark.utils.StaticClass;
@@ -38,7 +39,13 @@ public class SplashActivity extends AppCompatActivity{
                     if (isFirst()){
                         startActivity(new Intent(SplashActivity.this,GuideActivity.class));
                     }else{
-                        startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                        //判断是否登陆成功过
+                        if (ShareUtils.getBoolean(SplashActivity.this,"isLogin",false)){
+                            startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                        }
+                        else {
+                            startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                        }
                     }
                     finish();
                     break;
