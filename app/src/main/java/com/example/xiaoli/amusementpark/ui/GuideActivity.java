@@ -23,7 +23,7 @@ import com.example.xiaoli.amusementpark.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuideActivity extends AppCompatActivity implements View.OnClickListener {
+public class GuideActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager mViewPager;
     //容器
     private List<View> mList=new ArrayList<>();

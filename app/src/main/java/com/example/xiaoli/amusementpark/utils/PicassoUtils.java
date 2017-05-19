@@ -36,7 +36,7 @@ public class PicassoUtils {
 
     }
     //加载图片有默认图片
-    public static void loagImageViewHolder(Context context,String imgUrl,int loadImg,int errorImg,ImageView imageView){
+    public static void loadImageViewHolder(Context context,String imgUrl,int loadImg,int errorImg,ImageView imageView){
         Picasso.with(context)
                 .load(imgUrl)
                 .placeholder(loadImg)

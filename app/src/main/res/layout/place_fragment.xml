@@ -19,22 +19,15 @@
             >
             <android.support.v7.widget.SearchView
                 android:id="@+id/searchView"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/search_bg"
                 />
-            <TextView
-                android:id="@+id/cancelView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="取消"
-                android:textColor="@android:color/white"
-                android:layout_alignParentEnd="true"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                />
         </RelativeLayout>
-
     </LinearLayout>
+    <ListView
+        android:id="@+id/mListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
 </LinearLayout>

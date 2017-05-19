@@ -16,6 +16,15 @@
     <use-permission android:name="android.permission.RESTART_PACKAGES"></use-permission>
     <!--允许读取手机状态 用于创建BmobInstallation-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
+    <!-- 这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!-- 这个权限用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+
     <application
         android:name=".application.BaseApplication"
         android:allowBackup="true"
@@ -36,17 +45,34 @@
         <!-- 登录页-->
         <activity android:name=".ui.LoginActivity" android:theme="@style/NoActivityFullscreen"/>
         <!-- 注册页-->
-        <activity android:name=".ui.RegisterActivity" android:label="注册"/>
+        <activity android:name=".ui.RegisterActivity" />
         <!-- 重置密码页-->
-        <activity android:name=".ui.ResetPasswordActivity" android:label="重置密码"/>
+        <activity android:name=".ui.ResetPasswordActivity" />
         <!-- 主页-->
-        <activity android:name=".MainActivity"  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <!-- 商品详情-->
+        <activity android:name=".ui.GoodsActivity"/>
+        <!-- 景点介绍-->
+        <activity android:name=".ui.WebViewActivity"/>
         <!-- 广告页面1-->
-        <activity android:name=".ui.BannerOneActivity" android:label="第一页"/>
+        <activity android:name=".ui.BannerOneActivity" />
         <!-- 广告页面2-->
-        <activity android:name=".ui.BannerTwoActivity" android:label="第二页"/>
+        <activity android:name=".ui.BannerTwoActivity"/>
         <!-- 个人信息页-->
         <activity android:name=".ui.MyDetailActivity" />
+        <!-- 个人信息页-->
+        <activity android:name=".ui.WeatherActivity"/>
+        <!-- 修改昵称页-->
+        <activity android:name=".ui.NickNameActivity"/>
+        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
+        </service>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="5oDE72lp8U5XwbGZmVb0a8Dpqfkp4kkZ" />
+
     </application>
 
 </manifest>

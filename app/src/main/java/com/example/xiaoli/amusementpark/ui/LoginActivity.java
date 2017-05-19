@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,10 +26,15 @@ import android.widget.Toast;
 import com.example.xiaoli.amusementpark.MainActivity;
 import com.example.xiaoli.amusementpark.R;
 import com.example.xiaoli.amusementpark.entity.User;
+import com.example.xiaoli.amusementpark.entity.UserRequest;
 import com.example.xiaoli.amusementpark.utils.L;
 import com.example.xiaoli.amusementpark.utils.ShareUtils;
 import com.example.xiaoli.amusementpark.utils.UtilTools;
 import com.example.xiaoli.amusementpark.view.CustomProgress;
+import com.google.gson.Gson;
+import com.kymjs.rxvolley.RxVolley;
+import com.kymjs.rxvolley.client.HttpCallback;
+import com.kymjs.rxvolley.client.HttpParams;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
@@ -37,7 +43,7 @@ import com.romainpiel.shimmer.ShimmerTextView;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ShimmerTextView tv_title;
     private Button btn_login;
     private CheckBox cb;
@@ -92,31 +98,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //判断是否为空
                 if(!TextUtils.isEmpty(phone) & !TextUtils.isEmpty(pass)){
                     dialog.show(this, false, null);
-                    final User user=new User();
-                    user.setUsername(phone);
-                    user.setPassword(pass);
-                    user.login(new SaveListener<User>() {
+                    //post请求简洁版实现
+                    HttpParams params = new HttpParams();
+                    params.put("user_name",phone);
+                    params.put("user_password",pass);
+                    RxVolley.post("http://120.25.249.201/sql/login.php?", params, new HttpCallback() {
                         @Override
-                        public void done(User myUser, BmobException e) {
-                            if (e==null) {
+                        public void onSuccess(String t) {
+                            super.onSuccess(t);
+                            Gson gson=new Gson();
+                            UserRequest userRequest=gson.fromJson(t,UserRequest.class);
+                            if (userRequest.getResultCode()==200){
                                 dialog.del();
+                                ShareUtils.putBoolean(LoginActivity.this,"isLogin",true);
                                 //跳转
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                //登陆成功
-                                ShareUtils.putBoolean(LoginActivity.this,"isLogin",true);
-                                ShareUtils.putString(LoginActivity.this,"user_name",phone);
                                 finish();
-                            }else{
+                                //解析用户数据
+                                getUserInfo(userRequest);
+                            }else if (userRequest.getResultCode()==2){
                                 dialog.del();
-                                if (e.getErrorCode()==9016){
-                                    Toast.makeText(LoginActivity.this,"网络错误！",Toast.LENGTH_SHORT).show();
-                                    et_user.setError("网络错误！");
-                                }
-                                else if (e.getErrorCode()==101){
-                                    Toast.makeText(LoginActivity.this,"用户名或密码错误！",Toast.LENGTH_SHORT).show();
-                                    et_user.setError("用户名或密码错误！");
-                                    et_password.setText("");
-                                }
+                                et_user.setError("密码错误!");
+                            }else if (userRequest.getResultCode()==1){
+                                dialog.del();
+                                et_user.setError("用户不存在!");
                             }
                         }
                     });
@@ -126,6 +131,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+    private void getUserInfo(UserRequest userRequest) {
+        UserRequest.UserBean userBaen=userRequest.getDatas();
+        Gson gson=new Gson();
+        String user_info=gson.toJson(userBaen);
+        ShareUtils.putString(this,"user_info",user_info);
+    }
+
     //假设我输入用户和密码，但不点击登陆，直接退出
     @Override
     protected void onDestroy() {
@@ -141,5 +154,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             ShareUtils.deleShare(this,"name");
             ShareUtils.deleShare(this,"password");
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode==event.KEYCODE_BACK){
+            Intent intent = new Intent("exitApp");
+            intent.putExtra("closeAll", 1);
+            sendBroadcast(intent);//发送广播
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

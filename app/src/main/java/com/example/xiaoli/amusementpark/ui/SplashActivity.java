@@ -21,7 +21,7 @@ import com.example.xiaoli.amusementpark.utils.ShareUtils;
 import com.example.xiaoli.amusementpark.utils.StaticClass;
 import com.example.xiaoli.amusementpark.utils.UtilTools;
 
-public class SplashActivity extends AppCompatActivity{
+public class SplashActivity extends BaseActivity{
     /**
      * 1.设置延时 2000ms
      * 2.判断是否第一次运行
@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity{
                     if (isFirst()){
                         startActivity(new Intent(SplashActivity.this,GuideActivity.class));
                     }else{
-                        //判断是否登陆成功过
+                        //判断是否登陆成功
                         if (ShareUtils.getBoolean(SplashActivity.this,"isLogin",false)){
                             startActivity(new Intent(SplashActivity.this,MainActivity.class));
                         }

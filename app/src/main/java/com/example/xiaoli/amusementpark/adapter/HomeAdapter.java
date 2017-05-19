@@ -34,7 +34,7 @@ public class HomeAdapter extends RecyclerView.Adapter{
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
-    public static enum ITEM_TYPE {
+    public enum ITEM_TYPE {
         Vercial,
         Horizontal
     }
@@ -94,7 +94,6 @@ public class HomeAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemViewType(int position) {
-
         if (position==0){
             return ITEM_TYPE.Vercial.ordinal();
         }else if(position==1){

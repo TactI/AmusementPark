@@ -34,6 +34,7 @@ import com.example.xiaoli.amusementpark.adapter.HomeAdapter;
 import com.example.xiaoli.amusementpark.entity.HomeJavaBean;
 import com.example.xiaoli.amusementpark.ui.BannerOneActivity;
 import com.example.xiaoli.amusementpark.ui.BannerTwoActivity;
+import com.example.xiaoli.amusementpark.ui.WeatherActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +113,21 @@ public class MainFragment extends Fragment{
         homeAdapter.setOnItemClickListener(new HomeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(),"点击"+position+"个",Toast.LENGTH_SHORT).show();
+                switch (position){
+                    case 0:
+                        break;
+                    case 1:
+                        startActivity(new Intent(getActivity(), WeatherActivity.class));
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                }
             }
         });
 
@@ -169,7 +184,6 @@ public class MainFragment extends Fragment{
     }
     //设置recycleView的间隔
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-
         private int space;
         public SpacesItemDecoration(int space) {
             this.space=space;

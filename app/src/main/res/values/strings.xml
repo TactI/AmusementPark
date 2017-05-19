@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">欢迎进入游乐园</string>
     <string name="app_label">游票票</string>
+    <string name="open_time">平日：9:30-21:00,节假日9:00-21:00 ,夜场票：18:00-21:00</string>
 </resources>

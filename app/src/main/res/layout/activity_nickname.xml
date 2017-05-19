@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toolbar"/>
+    <EditText
+        android:id="@+id/tv_nickname"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/et_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="18sp"
+        android:hint="请输入昵称!"/>
+    <Button
+        android:id="@+id/btn_upname"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/btn_out"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:text="修改昵称"/>
+</LinearLayout>
