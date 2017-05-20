@@ -8,34 +8,31 @@ package com.example.xiaoli.amusementpark.ui;
  *    描述：       景点介绍
  */
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.xiaoli.amusementpark.R;
-import com.example.xiaoli.amusementpark.view.CustomDialog;
 
-import net.frakbot.jumpingbeans.JumpingBeans;
 
 public class WebViewActivity extends BaseActivity implements View.OnClickListener {
+    private ProgressBar mProgressBar;
     private TextView title_bar;
     private ImageView iv_back;
     private Toolbar mtoolbar;
     private WebView mWebView;
-    private CustomDialog dialog;
-    private TextView tv_load;
-    private JumpingBeans jumpingBeans;
-    private String url="http://120.25.249.201/html/tj.html";
+    private String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,28 +49,24 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initView() {
-        //弹出框
-        dialog=new CustomDialog(this, WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,R.layout.load_dialog,R.style.Theme_dialog,
-                Gravity.CENTER,R.style.pop_anim_style);
-        dialog.setCancelable(false);
-        tv_load= (TextView) dialog.findViewById(R.id.tv_load);
-        jumpingBeans=JumpingBeans.with(tv_load).appendJumpingDots().build();
-        dialog.show();
+        Intent intent=getIntent();
+        url=intent.getStringExtra("introduce");
+        mProgressBar= (ProgressBar) findViewById(R.id.mProgressBar);
         title_bar= (TextView) findViewById(R.id.title_bar);
-        title_bar.setText("上海欢乐谷");
+        title_bar.setText("景点介绍");
         iv_back= (ImageView) findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         mtoolbar= (Toolbar) findViewById(R.id.mtoolbar);
         mtoolbar.setBackgroundResource(R.color.blue2);
-
         mWebView= (WebView) findViewById(R.id.mWebView);
+        mWebView.getSettings().setUseWideViewPort(true);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
         //支持JS
         mWebView.getSettings().setJavaScriptEnabled(true);
         //支持缩放
-        mWebView.getSettings().setSupportZoom(true);
+        //mWebView.getSettings().setSupportZoom(true);
         //控制器
-        mWebView.getSettings().setBuiltInZoomControls(true);
+        mWebView.getSettings().setBuiltInZoomControls(false);
         //接口回掉
         mWebView.setWebChromeClient(new WebViewClient());
         //加载网页
@@ -83,7 +76,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 view.loadUrl(url);
-                //我接受这个事件
+                //我接受这个事件 本页加载
                 return true;
             }
         });
@@ -93,18 +86,16 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             if (newProgress==100){
-                dialog.dismiss();
+                mProgressBar.setVisibility(View.GONE);
             }
             super.onProgressChanged(view, newProgress);
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mWebView.destroy();
     }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){

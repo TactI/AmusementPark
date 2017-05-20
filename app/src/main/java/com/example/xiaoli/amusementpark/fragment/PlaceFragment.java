@@ -8,6 +8,7 @@ package com.example.xiaoli.amusementpark.fragment;
  *    描述：      景点页面
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,8 +16,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -67,26 +70,21 @@ public class PlaceFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent=new Intent();
-//                intent.putExtra("palace_imgurl",mData.get(i).getImg_url());
-//                intent.putExtra("palace_location",mData.get(i).getLocation());
                 ShareUtils.putString(getActivity(),"palace_name",mData.get(i).getPalace_name());
                 intent.setClass(getActivity(), GoodsActivity.class);
                 startActivity(intent);
-                //Toast.makeText(getActivity(), mData.get(i).getPalace_name(),Toast.LENGTH_SHORT).show();
             }
         });
         //触摸listview隐藏键盘
-//        mListView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).
-//                        hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-//                return false;
-//            }
-//        });
+        mListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).
+                        hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                return false;
+            }
+        });
         volleyqueue("http://120.25.249.201/sql/palace.php");
-        mAdapter=new MyAdapter();
-        mListView.setAdapter(mAdapter);
         searchView= (SearchView) view.findViewById(R.id.searchView);
         searchView.setIconifiedByDefault(false);
         searchTextArea = (SearchView.SearchAutoComplete) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
@@ -148,6 +146,8 @@ public class PlaceFragment extends Fragment {
     private void setData(List<Palace.palace> data) {
         mData=data;
         mBackData=data;
+        mAdapter=new MyAdapter();
+        mListView.setAdapter(mAdapter);
     }
 
     @Override

@@ -21,17 +21,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xiaoli.amusementpark.R;
+import com.example.xiaoli.amusementpark.entity.PalacePriceInfo;
 import com.example.xiaoli.amusementpark.ui.WebViewActivity;
 import com.example.xiaoli.amusementpark.utils.PicassoUtils;
 
 import java.util.List;
 
 public class GoodsAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+    private PalacePriceInfo mData;
     private Context mContext;
     private LayoutInflater inflater;
 
-    public GoodsAdapter(Context mContext) {
+    public GoodsAdapter(Context mContext,PalacePriceInfo mData) {
         this.mContext = mContext;
+        this.mData=mData;
         inflater=LayoutInflater.from(mContext);
     }
 
@@ -40,18 +43,16 @@ public class GoodsAdapter extends RecyclerView.Adapter implements View.OnClickLi
         switch (view.getId()){
             case R.id.line1:
                 Intent intent=new Intent();
+                intent.putExtra("introduce",mData.getDatas().getIntroduce_url());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setClass(mContext,WebViewActivity.class);
                 mContext.startActivity(intent);
                 break;
             case R.id.line2:
-
                 break;
             case R.id.line3:
-
                 break;
             case R.id.btn_order:
-
                 break;
         }
     }
@@ -93,13 +94,28 @@ public class GoodsAdapter extends RecyclerView.Adapter implements View.OnClickLi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof TopHolder){
-            PicassoUtils.loadImageViewHolder(mContext,"http://120.25.249.201/sql/imageview/shanghai.jpg",R.drawable.timg,R.drawable.error,((TopHolder) holder).iv_img);
+            PicassoUtils.loadImageViewHolder(mContext,mData.getDatas().getImg_url(),
+                    R.drawable.timg,R.drawable.error,((TopHolder) holder).iv_img);
+            ((TopHolder) holder).tv_location.setText(mData.getDatas().getPalace_location());
             ((TopHolder) holder).line1.setOnClickListener(this);
             ((TopHolder) holder).line2.setOnClickListener(this);
             ((TopHolder) holder).line3.setOnClickListener(this);
         }else if (holder instanceof TicketHolder){
-            ((TicketHolder) holder).tv_ticket.setText("上海欢乐谷");
-            ((TicketHolder) holder).tv_price.setText("￥120");
+            if (position==3){
+                ((TicketHolder) holder).tv_ticket.setText(mData.getDatas().getPalace_adult_morning());
+                ((TicketHolder) holder).tv_price.setText("￥"+mData.getDatas().getAdult_morning_price());
+            } else if(position==4){
+                ((TicketHolder) holder).tv_ticket.setText(mData.getDatas().getPalace_adult_night());
+                ((TicketHolder) holder).tv_price.setText("￥"+mData.getDatas().getAdult_night_price());
+            }else if(position==6){
+                ((TicketHolder) holder).tv_ticket.setText(mData.getDatas().getPalace_student_morning());
+                ((TicketHolder) holder).tv_price.setText("￥"+mData.getDatas().getStudent_morning_price());
+            }else if (position==8){
+                ((TicketHolder) holder).tv_ticket.setText(mData.getDatas().getPalace_child_morning());
+                ((TicketHolder) holder).tv_price.setText("￥"+mData.getDatas().getChild_morning_price());
+            }
+//            ((TicketHolder) holder).tv_ticket.setText("上海欢乐谷");
+//            ((TicketHolder) holder).tv_price.setText("￥120");
             ((TicketHolder) holder).btn_order.setOnClickListener(this);
         }
     }
@@ -127,10 +143,12 @@ public class GoodsAdapter extends RecyclerView.Adapter implements View.OnClickLi
     }
     //顶布局
     public class TopHolder extends RecyclerView.ViewHolder{
+        private TextView tv_location;
         private ImageView iv_img;
         private RelativeLayout line1,line2,line3;
         public TopHolder(View itemView) {
             super(itemView);
+            tv_location= (TextView) itemView.findViewById(R.id.tv_location);
             iv_img= (ImageView) itemView.findViewById(R.id.iv_img);
             line1= (RelativeLayout) itemView.findViewById(R.id.line1);
             line2= (RelativeLayout) itemView.findViewById(R.id.line2);

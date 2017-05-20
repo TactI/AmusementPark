@@ -17,7 +17,7 @@
             android:layout_marginTop="10dp"
             android:text="上海欢乐谷门票成人票"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <LinearLayout
             android:id="@+id/line2"
@@ -53,11 +53,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="35dp"
             android:layout_marginTop="20sp"
             android:text="￥115"
             android:textColor="@color/darkorange"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
         <Button
             android:id="@+id/btn_order"
             android:layout_width="wrap_content"

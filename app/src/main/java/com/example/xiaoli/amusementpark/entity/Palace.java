@@ -5,7 +5,7 @@ package com.example.xiaoli.amusementpark.entity;
  *    文件名：    Palace
  *    创建者：    XiaoLi
  *    创建时间：  2017/5/15  13:53
- *    描述：       TODO.
+ *    描述：       全部景点
  */
 
 import java.util.List;

@@ -11,8 +11,8 @@
         <ImageView
             android:id="@+id/iv_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
+            android:layout_height="250dp"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher" />
 
         <RelativeLayout
@@ -30,11 +30,11 @@
                 android:layout_centerVertical="true"
                 android:text="景点介绍"
                 android:textColor="#000000"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/to_back1" />
@@ -62,11 +62,11 @@
                 android:layout_centerVertical="true"
                 android:text="评价"
                 android:textColor="#000000"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/to_back1" />
@@ -88,8 +88,8 @@
 
             <ImageView
                 android:id="@+id/iv_location"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/location" />
 
@@ -102,11 +102,11 @@
                 android:layout_toRightOf="@+id/iv_location"
                 android:text="地址"
                 android:textColor="#000000"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/to_back1" />

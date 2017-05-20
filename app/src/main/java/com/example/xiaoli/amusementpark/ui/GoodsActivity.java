@@ -8,10 +8,12 @@ package com.example.xiaoli.amusementpark.ui;
  *    描述：       景点详情页面
  */
 
-import android.content.Intent;
+
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +26,15 @@ import android.widget.Toast;
 
 import com.example.xiaoli.amusementpark.R;
 import com.example.xiaoli.amusementpark.adapter.GoodsAdapter;
+import com.example.xiaoli.amusementpark.entity.PalacePriceInfo;
+import com.example.xiaoli.amusementpark.utils.L;
 import com.example.xiaoli.amusementpark.utils.ShareUtils;
+import com.google.gson.Gson;
+import com.kymjs.rxvolley.RxVolley;
+import com.kymjs.rxvolley.client.HttpCallback;
+import com.kymjs.rxvolley.client.HttpParams;
+import com.kymjs.rxvolley.http.VolleyError;
+
 
 
 public class GoodsActivity extends BaseActivity implements View.OnClickListener {
@@ -33,6 +43,23 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
     private ImageView iv_back;
     private RecyclerView mRecycleView;
     private GoodsAdapter myAdapter;
+    private PalacePriceInfo mData=new PalacePriceInfo();
+    //获取传过来的 palace_name
+    private String palace_name;
+    //private Handler handler=new Handler();
+//    private Handler handler=new Handler(){
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            switch (msg.what){
+//                case 1:
+//                    String data= (String) msg.obj;
+//                    Gson gson=new Gson();
+//                    mData=gson.fromJson(data,PalacePriceInfo.class);
+//                    break;
+//            }
+//        }
+//    };
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,18 +76,50 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initView() {
+        palace_name=ShareUtils.getString(this,"palace_name","");
+        //网络请求
+        volleyquest();
+        //这句话一直打印不出来
+//        L.e(mData.getResultCode()+"");
         mtoolbar= (Toolbar) findViewById(R.id.mtoolbar);
         mtoolbar.setBackgroundResource(R.color.blue2);
         title_bar= (TextView) findViewById(R.id.title_bar);
-        title_bar.setText(ShareUtils.getString(this,"palace_name",""));
+        title_bar.setText(palace_name);
         iv_back= (ImageView) findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         mRecycleView= (RecyclerView) findViewById(R.id.mRecycleView);
         mRecycleView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        myAdapter=new GoodsAdapter(this);
-        mRecycleView.setAdapter(myAdapter);
         SpacesItemDecoration decoration=new SpacesItemDecoration(1);
         mRecycleView.addItemDecoration(decoration);
+    }
+    private void volleyquest() {
+        HttpParams params = new HttpParams();
+        params.put("palace_name",palace_name);
+        RxVolley.post("http://120.25.249.201/sql/detail.php", params, new HttpCallback() {
+            @Override
+            public void onSuccess(String t) {
+                L.e(t);
+                Gson gson=new Gson();
+                mData=gson.fromJson(t,PalacePriceInfo.class);
+                L.e(mData.getResultCode()+"");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setAdapter(mData);
+                    }
+                });
+            }
+            @Override
+            public void onFailure(VolleyError error) {
+                super.onFailure(error);
+                Toast.makeText(getApplicationContext(),"请求失败!",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setAdapter(PalacePriceInfo Data) {
+        myAdapter=new GoodsAdapter(this,Data);
+        mRecycleView.setAdapter(myAdapter);
     }
     @Override
     public void onClick(View view) {
