@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="0dp"/>
-    <solid android:color="@android:color/white"/>
+    <solid android:color="@color/lightgray"/>
     <stroke android:dashGap="0dp"
         android:width="2dp"
-        android:color="@color/colorPrimary"/>
+        android:color="@color/blue2" />
 </shape>

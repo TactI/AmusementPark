@@ -33,7 +33,6 @@ public class BaseActivity extends AppCompatActivity{
     }
     //定义一个广播
     public class MyBaseActiviy_Broad extends BroadcastReceiver {
-
         public void onReceive(Context arg0, Intent intent) {
         //接收发送过来的广播内容
             int closeAll = intent.getIntExtra("closeAll", 0);

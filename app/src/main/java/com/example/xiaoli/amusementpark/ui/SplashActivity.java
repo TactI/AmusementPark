@@ -28,7 +28,7 @@ public class SplashActivity extends BaseActivity{
      * 3.自定义字体
      * 4.Activity全屏主题
      */
-    private TextView tv_splash;
+    //private TextView tv_splash;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -62,9 +62,9 @@ public class SplashActivity extends BaseActivity{
     private void initView() {
         //设置延时 2秒
         handler.sendEmptyMessageDelayed(StaticClass.HANDLER_SPLASH,2000);
-        tv_splash= (TextView) findViewById(R.id.tv_splash);
+        //tv_splash= (TextView) findViewById(R.id.tv_splash);
         //设置字体
-        UtilTools.setFont1(this,tv_splash);
+        //UtilTools.setFont1(this,tv_splash);
     }
     //判断程序是否第一次运行0
     private  Boolean isFirst(){

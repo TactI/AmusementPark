@@ -73,4 +73,9 @@ dependencies {
     //EventBus
     compile 'org.greenrobot:eventbus:3.0.0'
     compile files('libs/BaiduLBS_Android.jar')
+    //带数字的进度条
+    //NumberProgressBar
+    compile 'com.daimajia.numberprogressbar:library:1.4@aar'
+    //timesquare
+    compile 'com.squareup:android-times-square:1.6.5@aar'
 }

@@ -27,6 +27,7 @@ import com.example.xiaoli.amusementpark.fragment.OrderFragment;
 import com.example.xiaoli.amusementpark.fragment.PlaceFragment;
 import com.example.xiaoli.amusementpark.ui.BaseActivity;
 import com.example.xiaoli.amusementpark.utils.L;
+import com.example.xiaoli.amusementpark.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,18 +45,7 @@ public class MainActivity extends BaseActivity{
     // fragment
     private List<Fragment> mFragment;
 
-//    //drawerlayout控件
-//    private DrawerLayout drawerlayout;
-//    //NavigationView
-//    private NavigationView navigation_view;
-//    private View handerView;
-//    private ImageView iv_user;
-//
-//    private ImageView leftmenu;
-//    private TextView tv_title;
-//    private String[] titles={"首页","景点","我的"};
-//    private ImageView iv_setting;
-//    @Override
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -106,8 +96,7 @@ public class MainActivity extends BaseActivity{
 
     private void exit() {
         if ((System.currentTimeMillis() - firsttime) > 2000) {
-            Toast.makeText(getApplicationContext(), "再按一次退出程序",
-                    Toast.LENGTH_SHORT).show();
+            ToastUtils.showToastShort(getApplicationContext(), "再按一次退出程序");
             firsttime = System.currentTimeMillis();
         } else {
             Intent intent = new Intent("exitApp");

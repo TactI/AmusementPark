@@ -41,6 +41,15 @@ public class UserRequest {
         private String user_name;
         private String user_password;
         private String user_number;
+        private String  real_name;
+
+        public String getReal_name() {
+            return real_name;
+        }
+
+        public void setReal_name(String real_name) {
+            this.real_name = real_name;
+        }
 
         public String getUser_id() {
             return user_id;

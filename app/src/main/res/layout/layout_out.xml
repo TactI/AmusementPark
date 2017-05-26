@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+   <LinearLayout
+       android:background="@color/white"
+       android:layout_marginLeft="50dp"
+       android:layout_marginRight="50dp"
+       android:gravity="center"
+       android:orientation="vertical"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <TextView
+           android:padding="10dp"
+           android:text="退出当前账号"
+           android:textSize="18sp"
+           android:gravity="center"
+           android:textColor="@color/black"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" />
+       <TextView
+           android:textColor="@color/dimgray"
+           android:layout_width="200dp"
+           android:layout_height="wrap_content"
+           android:padding="10dp"
+           android:text="退出将重新登录才能进入,确定退出？"
+           android:textSize="18sp"
+           android:gravity="center"
+           />
+       <LinearLayout
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <Button
+               android:id="@+id/btn_cancel"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:background="@drawable/textview_bg"
+               android:textColor="@color/colorWeather"
+               android:text="取消"/>
+           <Button
+               android:id="@+id/btn_ok"
+               android:layout_weight="1"
+               android:layout_width="0dp"
+               android:text="确定退出"
+               android:textColor="@color/black"
+               android:background="@drawable/textview_bg"
+               android:layout_height="wrap_content" />
+       </LinearLayout>
+   </LinearLayout>
+</LinearLayout>

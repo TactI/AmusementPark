@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,6 +26,7 @@ import com.example.xiaoli.amusementpark.entity.NickNameEvent;
 import com.example.xiaoli.amusementpark.entity.UserRequest;
 import com.example.xiaoli.amusementpark.utils.L;
 import com.example.xiaoli.amusementpark.utils.ShareUtils;
+import com.example.xiaoli.amusementpark.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
@@ -76,7 +78,7 @@ public class NickNameActivity extends BaseActivity{
             public void onClick(View view) {
                 if (tv_nickname.getText().length()!=0){
                     if (tv_nickname.getText().toString().trim().equals(nick_name)){
-                        Toast.makeText(getApplicationContext(),"昵称未改变!",Toast.LENGTH_SHORT).show();
+                        ToastUtils.showToastShort(getApplicationContext(),"昵称未改变!");
                     }
                     else {
                         HttpParams params=new HttpParams();
@@ -93,21 +95,21 @@ public class NickNameActivity extends BaseActivity{
                                     Gson gson2=new Gson();
                                     String user_info=gson2.toJson(userBaen);
                                     ShareUtils.putString(getApplicationContext(),"user_info",user_info);
-                                    Toast.makeText(getApplicationContext(),"修改成功!",Toast.LENGTH_SHORT).show();
+                                    ToastUtils.showToastShort(getApplicationContext(),"修改成功!");
                                     ShareUtils.putBoolean(getApplicationContext(),"isUp",true);
                                     EventBus.getDefault().post(new NickNameEvent(tv_nickname.getText().toString().trim()));
                                     finish();
                                 }else if (userRequest.getResultCode()==1){
-                                    Toast.makeText(getApplicationContext(),"修改失败!",Toast.LENGTH_SHORT).show();
+                                    ToastUtils.showToastShort(getApplicationContext(),"修改失败!");
                                 }else if (userRequest.getResultCode()==0){
-                                    Toast.makeText(getApplicationContext(),"未收到数据!",Toast.LENGTH_SHORT).show();
+                                    ToastUtils.showToastShort(getApplicationContext(),"未收到数据!");
                                 }
                             }
                         });
 
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(),"输入框不能为空!",Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToastShort(getApplicationContext(),"输入框不能为空!");
                 }
             }
         });

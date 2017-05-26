@@ -10,9 +10,12 @@ package com.example.xiaoli.amusementpark.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -37,12 +40,15 @@ import com.example.xiaoli.amusementpark.ui.GoodsActivity;
 import com.example.xiaoli.amusementpark.utils.L;
 import com.example.xiaoli.amusementpark.utils.PicassoUtils;
 import com.example.xiaoli.amusementpark.utils.ShareUtils;
+import com.example.xiaoli.amusementpark.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
+import com.kymjs.rxvolley.http.VolleyError;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
@@ -55,7 +61,22 @@ public class PlaceFragment extends Fragment {
     private List<Palace.palace> mData = new ArrayList<>(); // 这个数据会改变
     private List<Palace.palace> mBackData;
     private MyAdapter mAdapter;
-    private Handler handler=new Handler();
+    //下拉刷新布局
+    private SwipeRefreshLayout  mSwipeFresh;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+           switch (msg.what){
+               case 1:
+                   if (mData.size()!=0){
+                       mAdapter.notifyDataSetChanged();
+                   }
+                   mSwipeFresh.setRefreshing(false);
+                   break;
+           }
+        }
+    };
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.place_fragment,null);
@@ -63,9 +84,10 @@ public class PlaceFragment extends Fragment {
         return view;
     }
     private void findView(View view) {
+        mSwipeFresh= (SwipeRefreshLayout) view.findViewById(R.id.mSwipeFresh);
+        mSwipeFresh.setColorSchemeResources(R.color.blue2);
         mListView= (ListView) view.findViewById(R.id.mListView);
         mListView.setTextFilterEnabled(true);// 开启过滤功能
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -84,7 +106,7 @@ public class PlaceFragment extends Fragment {
                 return false;
             }
         });
-        volleyqueue("http://120.25.249.201/sql/palace.php");
+        volleyqueue("http://120.25.249.201/sql/palace.php?"+(Math.random()*100));
         searchView= (SearchView) view.findViewById(R.id.searchView);
         searchView.setIconifiedByDefault(false);
         searchTextArea = (SearchView.SearchAutoComplete) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
@@ -122,6 +144,18 @@ public class PlaceFragment extends Fragment {
                 return true;
             }
         });
+        //刷新
+        mSwipeFresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(mData.size()!=0){
+                    mData.clear();
+                }
+                volleyqueue("http://120.25.249.201/sql/palace.php?"+(Math.random()*100));
+                searchTextArea.setText("");
+                handler.sendEmptyMessage(1);
+            }
+        });
     }
 
     private void volleyqueue(String s) {
@@ -133,12 +167,17 @@ public class PlaceFragment extends Fragment {
                 Gson gson=new Gson();
                 Palace palace=gson.fromJson(t,Palace.class);
                 mData=palace.getDatas();
-                handler.post(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         setData(mData);
                     }
                 });
+            }
+
+            @Override
+            public void onFailure(VolleyError error) {
+                ToastUtils.showToastShort(getActivity(),"请求失败!");
             }
         });
     }
@@ -191,7 +230,7 @@ public class PlaceFragment extends Fragment {
             }
             viewHolder.tv_name.setText(mData.get(position).getPalace_name());
             viewHolder.tv_price.setText("￥"+mData.get(position).getPalace_price()+"起");
-            viewHolder.tv_desc.setText(mData.get(position).getPalace_desc());
+            viewHolder.tv_desc.setText(mData.get(position).getPalace_opentime());
             PicassoUtils.loadImageViewHolder(getActivity(),mData.get(position).getImg_url(),R.drawable.timg,R.drawable.error,viewHolder.iv_place);
             viewHolder.videoplayer.setUp(mData.get(position).getVideo_url()
                     , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, mData.get(position).getVideo_title());

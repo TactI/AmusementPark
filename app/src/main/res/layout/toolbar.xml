@@ -4,7 +4,7 @@
     android:layout_height="64dp">
     <android.support.v7.widget.Toolbar
         android:id="@+id/mtoolbar"
-        android:background="@color/colorShowtime"
+        android:background="@color/blue2"
         android:layout_width="match_parent"
         android:layout_height="64dp">
         <RelativeLayout

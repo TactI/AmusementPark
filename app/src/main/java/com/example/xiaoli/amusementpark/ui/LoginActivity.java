@@ -29,12 +29,14 @@ import com.example.xiaoli.amusementpark.entity.User;
 import com.example.xiaoli.amusementpark.entity.UserRequest;
 import com.example.xiaoli.amusementpark.utils.L;
 import com.example.xiaoli.amusementpark.utils.ShareUtils;
+import com.example.xiaoli.amusementpark.utils.ToastUtils;
 import com.example.xiaoli.amusementpark.utils.UtilTools;
 import com.example.xiaoli.amusementpark.view.CustomProgress;
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
+import com.kymjs.rxvolley.http.VolleyError;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
@@ -124,9 +126,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 et_user.setError("用户不存在!");
                             }
                         }
+
+                        @Override
+                        public void onFailure(VolleyError error) {
+                            super.onFailure(error);
+                            dialog.del();
+                            ToastUtils.showToastShort(getApplicationContext(),"网络未连接!");
+                        }
                     });
                 }else{
-                    Toast.makeText(this,"输入框不能为空",Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToastShort(this,"输入框不能为空");
                 }
                 break;
         }

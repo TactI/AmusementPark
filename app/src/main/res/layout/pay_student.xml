@@ -11,7 +11,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/student"
+            android:drawableLeft="@drawable/student1"
             android:drawablePadding="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"

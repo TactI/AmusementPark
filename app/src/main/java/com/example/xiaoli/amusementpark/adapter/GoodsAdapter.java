@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.xiaoli.amusementpark.R;
 import com.example.xiaoli.amusementpark.entity.PalacePriceInfo;
+import com.example.xiaoli.amusementpark.ui.OrderActivity;
 import com.example.xiaoli.amusementpark.ui.WebViewActivity;
 import com.example.xiaoli.amusementpark.utils.PicassoUtils;
 
@@ -31,7 +32,6 @@ public class GoodsAdapter extends RecyclerView.Adapter implements View.OnClickLi
     private PalacePriceInfo mData;
     private Context mContext;
     private LayoutInflater inflater;
-
     public GoodsAdapter(Context mContext,PalacePriceInfo mData) {
         this.mContext = mContext;
         this.mData=mData;
@@ -51,8 +51,6 @@ public class GoodsAdapter extends RecyclerView.Adapter implements View.OnClickLi
             case R.id.line2:
                 break;
             case R.id.line3:
-                break;
-            case R.id.btn_order:
                 break;
         }
     }
@@ -104,19 +102,63 @@ public class GoodsAdapter extends RecyclerView.Adapter implements View.OnClickLi
             if (position==3){
                 ((TicketHolder) holder).tv_ticket.setText(mData.getDatas().getPalace_adult_morning());
                 ((TicketHolder) holder).tv_price.setText("￥"+mData.getDatas().getAdult_morning_price());
+                ((TicketHolder) holder).btn_order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent();
+                        intent.setClass(mContext,OrderActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("palace_info",mData.getDatas().getPalace_adult_morning());
+                        intent.putExtra("palace_price",mData.getDatas().getAdult_morning_price());
+                        mContext.startActivity(intent);
+                    }
+                });
             } else if(position==4){
                 ((TicketHolder) holder).tv_ticket.setText(mData.getDatas().getPalace_adult_night());
                 ((TicketHolder) holder).tv_price.setText("￥"+mData.getDatas().getAdult_night_price());
+                ((TicketHolder) holder).btn_order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent();
+                        intent.setClass(mContext,OrderActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("palace_info",mData.getDatas().getPalace_adult_night());
+                        intent.putExtra("palace_price",mData.getDatas().getAdult_night_price());
+                        mContext.startActivity(intent);
+                    }
+                });
             }else if(position==6){
                 ((TicketHolder) holder).tv_ticket.setText(mData.getDatas().getPalace_student_morning());
                 ((TicketHolder) holder).tv_price.setText("￥"+mData.getDatas().getStudent_morning_price());
+                ((TicketHolder) holder).btn_order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent();
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setClass(mContext,OrderActivity.class);
+                        intent.putExtra("palace_info",mData.getDatas().getPalace_student_morning());
+                        intent.putExtra("palace_price",mData.getDatas().getStudent_morning_price());
+                        mContext.startActivity(intent);
+                    }
+                });
             }else if (position==8){
                 ((TicketHolder) holder).tv_ticket.setText(mData.getDatas().getPalace_child_morning());
                 ((TicketHolder) holder).tv_price.setText("￥"+mData.getDatas().getChild_morning_price());
+                ((TicketHolder) holder).btn_order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent();
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setClass(mContext,OrderActivity.class);
+                        intent.putExtra("palace_info",mData.getDatas().getPalace_child_morning());
+                        intent.putExtra("palace_price",mData.getDatas().getChild_morning_price());
+                        mContext.startActivity(intent);
+                    }
+                });
             }
 //            ((TicketHolder) holder).tv_ticket.setText("上海欢乐谷");
 //            ((TicketHolder) holder).tv_price.setText("￥120");
-            ((TicketHolder) holder).btn_order.setOnClickListener(this);
+
         }
     }
 

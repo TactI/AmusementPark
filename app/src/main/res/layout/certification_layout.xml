@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/toolbar"/>
     <EditText
         android:paddingLeft="10dp"
-        android:id="@+id/tv_nickname"
+        android:id="@+id/et_real_name"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/et_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="18sp"
+        android:hint="请输入真实姓名!"/>
+    <EditText
+        android:paddingLeft="10dp"
+        android:id="@+id/et_real_number"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
@@ -13,9 +25,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textSize="18sp"
-        android:hint="请输入昵称!"/>
+        android:hint="请输入身份证号!"/>
     <Button
-        android:id="@+id/btn_upname"
+        android:id="@+id/btn_up_number"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
@@ -24,5 +36,5 @@
         android:layout_height="40dp"
         android:textSize="18sp"
         android:textColor="@android:color/white"
-        android:text="修改昵称"/>
+        android:text="进行认证"/>
 </LinearLayout>

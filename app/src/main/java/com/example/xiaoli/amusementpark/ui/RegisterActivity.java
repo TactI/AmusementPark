@@ -8,13 +8,18 @@ package com.example.xiaoli.amusementpark.ui;
  *    描述：       注册页
  */
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -22,6 +27,7 @@ import com.example.xiaoli.amusementpark.R;
 import com.example.xiaoli.amusementpark.entity.User;
 import com.example.xiaoli.amusementpark.utils.L;
 import com.example.xiaoli.amusementpark.utils.StaticClass;
+import com.example.xiaoli.amusementpark.utils.ToastUtils;
 import com.example.xiaoli.amusementpark.utils.UtilTools;
 
 import cn.bmob.sms.BmobSMS;
@@ -33,6 +39,8 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
     private EditText et_phone,et_code;
+    private ImageView iv_back;
+    private TextView title_bar;
     private EditText et_password,et_confirm;
     private Button  get_send,btn_register;
     private static final int  HANDLER=1000;
@@ -64,10 +72,22 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initBmobSms();
+        //透明状态栏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            // Translucent status bar
+            window.setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         initView();
     }
 
     private void initView() {
+        iv_back= (ImageView) findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(this);
+        title_bar= (TextView) findViewById(R.id.title_bar);
+        title_bar.setText("注册");
         et_phone= (EditText) findViewById(R.id.et_phone);
         et_code= (EditText) findViewById(R.id.et_code);
         et_password= (EditText) findViewById(R.id.et_password);
@@ -99,27 +119,27 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                 et_phone.setEnabled(false);
                                 get_send.setClickable(false);
                                 get_send.setBackgroundResource(R.drawable.sms_shape02);
-                                Toast.makeText(RegisterActivity.this, "验证码发送成功，请尽快使用", Toast.LENGTH_SHORT).show();
+                                ToastUtils.showToastShort(RegisterActivity.this, "验证码发送成功，请尽快使用");
                                 //倒计时
                                 handler.sendEmptyMessage(HANDLER);
                             }else {
-                                Toast.makeText(RegisterActivity.this, "验证码发送失败，请检查网络连接", Toast.LENGTH_SHORT).show();
+                                ToastUtils.showToastShort(RegisterActivity.this, "验证码发送失败，请检查网络连接");
                                 L.e(e.toString());
                             }
                         }
                     });
                 } else{
-                    Toast.makeText(this,"请输入有效合法的手机号！",Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToastShort(this,"请输入有效合法的手机号！");
                 }
                 break;
             case R.id.btn_register:
                 final String phone2=et_phone.getText().toString();
                 final String code2=et_code.getText().toString();
                 if(TextUtils.isEmpty(code2) ||TextUtils.isEmpty(password) ||TextUtils.isEmpty(confirm)){
-                    Toast.makeText(RegisterActivity.this, "输入框不能为空", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToastShort(RegisterActivity.this, "输入框不能为空!");
                 }else{
                     if (!password.equals(confirm)){
-                        Toast.makeText(RegisterActivity.this, "两次输入的密码不一致", Toast.LENGTH_SHORT).show();
+                        ToastUtils.showToastShort(RegisterActivity.this, "两次输入的密码不一致!");
                     }
                     else{
                         BmobSMS.verifySmsCode(this, phone2, code2, new VerifySMSCodeListener() {
@@ -134,21 +154,24 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                         @Override
                                         public void done(User user, cn.bmob.v3.exception.BmobException e) {
                                             if (e==null){
-                                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                                                ToastUtils.showToastShort(RegisterActivity.this, "注册成功!");
                                                 finish();
                                             }else {
-                                                Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                                                ToastUtils.showToastShort(RegisterActivity.this, "注册失败!");
                                             }
                                         }
                                     });
                                 }
                                 else {
-                                    Toast.makeText(RegisterActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
+                                    ToastUtils.showToastShort(RegisterActivity.this, "验证码错误");
                                 }
                             }
                         });
                     }
                 }
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }

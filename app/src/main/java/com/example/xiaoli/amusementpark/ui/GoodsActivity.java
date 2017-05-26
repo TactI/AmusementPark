@@ -29,6 +29,7 @@ import com.example.xiaoli.amusementpark.adapter.GoodsAdapter;
 import com.example.xiaoli.amusementpark.entity.PalacePriceInfo;
 import com.example.xiaoli.amusementpark.utils.L;
 import com.example.xiaoli.amusementpark.utils.ShareUtils;
+import com.example.xiaoli.amusementpark.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
@@ -38,7 +39,6 @@ import com.kymjs.rxvolley.http.VolleyError;
 
 
 public class GoodsActivity extends BaseActivity implements View.OnClickListener {
-    private Toolbar mtoolbar;
     private TextView title_bar;
     private ImageView iv_back;
     private RecyclerView mRecycleView;
@@ -46,20 +46,6 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
     private PalacePriceInfo mData=new PalacePriceInfo();
     //获取传过来的 palace_name
     private String palace_name;
-    //private Handler handler=new Handler();
-//    private Handler handler=new Handler(){
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            switch (msg.what){
-//                case 1:
-//                    String data= (String) msg.obj;
-//                    Gson gson=new Gson();
-//                    mData=gson.fromJson(data,PalacePriceInfo.class);
-//                    break;
-//            }
-//        }
-//    };
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +65,6 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
         palace_name=ShareUtils.getString(this,"palace_name","");
         //网络请求
         volleyquest();
-        //这句话一直打印不出来
-//        L.e(mData.getResultCode()+"");
-        mtoolbar= (Toolbar) findViewById(R.id.mtoolbar);
-        mtoolbar.setBackgroundResource(R.color.blue2);
         title_bar= (TextView) findViewById(R.id.title_bar);
         title_bar.setText(palace_name);
         iv_back= (ImageView) findViewById(R.id.iv_back);
@@ -112,7 +94,7 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onFailure(VolleyError error) {
                 super.onFailure(error);
-                Toast.makeText(getApplicationContext(),"请求失败!",Toast.LENGTH_SHORT).show();
+                ToastUtils.showToastShort(getApplicationContext(),"请求失败!");
             }
         });
     }

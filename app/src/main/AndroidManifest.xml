@@ -28,7 +28,7 @@
     <application
         android:name=".application.BaseApplication"
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/logo1"
         android:label="@string/app_label"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -67,6 +67,13 @@
         <activity android:name=".ui.WeatherActivity"/>
         <!-- 修改昵称页-->
         <activity android:name=".ui.NickNameActivity"/>
+        <!-- 身份认证页-->
+        <activity android:name=".ui.RealActivity"/>
+        <!-- 更新页-->
+        <activity android:name=".ui.AboutActivity"/>
+        <!-- 填写订单页-->
+        <activity android:name=".ui.OrderActivity"/>
+        <!-- 百度地图服务-->
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
         <meta-data

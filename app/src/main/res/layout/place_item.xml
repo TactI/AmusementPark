@@ -13,7 +13,7 @@
     app:cardCornerRadius="4dp"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="false"
-    app:cardBackgroundColor="@color/darkgray">
+    app:cardBackgroundColor="@color/white">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -35,6 +35,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="tv_name"
                 android:textSize="20sp"
+                android:textColor="@color/black"
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,6 +43,7 @@
             <TextView
                 android:id="@+id/tv_price"
                 android:text="96￥"
+                android:textColor="@color/darkorange"
                 android:textSize="20sp"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
@@ -49,6 +51,7 @@
                 android:layout_below="@+id/tv_name"
                 android:layout_alignLeft="@+id/tv_name"/>
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/tv_desc"
                 android:text="@string/open_time"
                 android:textSize="15sp"

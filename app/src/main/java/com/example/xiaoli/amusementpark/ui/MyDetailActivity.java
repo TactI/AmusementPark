@@ -11,12 +11,14 @@ package com.example.xiaoli.amusementpark.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -32,10 +34,12 @@ import android.widget.Toast;
 import com.example.xiaoli.amusementpark.MainActivity;
 import com.example.xiaoli.amusementpark.R;
 import com.example.xiaoli.amusementpark.entity.NickNameEvent;
+import com.example.xiaoli.amusementpark.entity.NumberEvent;
 import com.example.xiaoli.amusementpark.entity.UserRequest;
 import com.example.xiaoli.amusementpark.utils.L;
 import com.example.xiaoli.amusementpark.utils.PicassoUtils;
 import com.example.xiaoli.amusementpark.utils.ShareUtils;
+import com.example.xiaoli.amusementpark.utils.ToastUtils;
 import com.example.xiaoli.amusementpark.view.CustomDialog;
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
@@ -62,11 +66,16 @@ public class MyDetailActivity extends BaseActivity implements View.OnClickListen
     private TextView title_bar;
     private ImageView iv_back;
     //退出登录
-    private Button btn_out;
+    private Button btn_out,btn_cancel,btn_ok;
+    //实名认证
+    private TextView tv_real_name;
+
     private RelativeLayout mRelative1;
     private RelativeLayout mRelative12;
+    private RelativeLayout mRelative15;
     private CircleImageView user_img;
     private CustomDialog dialog;
+    private CustomDialog dialog1;
     //3个按钮
     private TextView tv_album,tv_photo,tv_cancle;
     //回掉结果
@@ -75,7 +84,6 @@ public class MyDetailActivity extends BaseActivity implements View.OnClickListen
     public static final int RESULT_REQUEST_CODE=102;
     //个人信息textview
     private TextView tv_name,tv_phone;
-
     //保存拍照上传的图片
     private File temFile;
     private String  userimage_name;
@@ -119,6 +127,16 @@ public class MyDetailActivity extends BaseActivity implements View.OnClickListen
 
     }
     private void initView() {
+        tv_real_name= (TextView) findViewById(R.id.tv_real_name);
+        if (!ShareUtils.getBoolean(this,"is_real",false)){
+            tv_real_name.setText("未认证");
+            tv_real_name.setTextColor(Color.parseColor("#1296db"));
+            tv_real_name.setOnClickListener(this);
+        }else{
+            tv_real_name.setText("已认证");
+            tv_real_name.setTextColor(Color.GRAY);
+            tv_real_name.setOnClickListener(null);
+        }
         tv_name= (TextView) findViewById(R.id.tv_name);
         tv_phone= (TextView) findViewById(R.id.tv_phone);
         btn_out= (Button) findViewById(R.id.btn_out);
@@ -133,14 +151,23 @@ public class MyDetailActivity extends BaseActivity implements View.OnClickListen
         //昵称那行
         mRelative12= (RelativeLayout) findViewById(R.id.mRelative2);
         mRelative12.setOnClickListener(this);
+        //重置密码那行
+        mRelative15= (RelativeLayout) findViewById(R.id.mRelative5);
+        mRelative15.setOnClickListener(this);
         user_img= (CircleImageView) findViewById(R.id.user_img);
         initData();
         //PicassoUtils.loadImageView(this,ShareUtils.getString(this,"imageurl",""),user_img);
-        //弹出框
+        //弹出框 头像
         dialog=new CustomDialog(this, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT,
                 R.layout.dialog_photo,R.style.Theme_dialog,Gravity.BOTTOM,R.style.pop_anim_style );
-        //屏幕外点击无效
-        //dialog.setCancelable(false);
+        //弹出框 退出登录
+        dialog1=new CustomDialog(this,WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT,
+                R.layout.layout_out,R.style.Theme_dialog,Gravity.CENTER,R.style.pop_anim_style);
+        dialog1.setCancelable(false);
+        btn_cancel= (Button) dialog1.findViewById(R.id.btn_cancel);
+        btn_cancel.setOnClickListener(this);
+        btn_ok= (Button) dialog1.findViewById(R.id.btn_ok);
+        btn_ok.setOnClickListener(this);
         //相册
         tv_album= (TextView) dialog.findViewById(R.id.tv_album);
         tv_album.setOnClickListener(this);
@@ -162,13 +189,18 @@ public class MyDetailActivity extends BaseActivity implements View.OnClickListen
         user_nickname=userBean.getNick_name();
         tv_name.setText(user_nickname);
         tv_phone.setText(user_name);
-        PicassoUtils.loadImageView(this,imageurl,user_img);
-
+        PicassoUtils.loadImageViewHolder(this,imageurl,R.drawable.timg,R.drawable.error,user_img);
     }
     //修改后回掉
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(NickNameEvent event) {
         tv_name.setText(event.getNickname());
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTextEvent(NumberEvent event){
+        tv_real_name.setText("已认证");
+        tv_real_name.setTextColor(Color.GRAY);
+        tv_real_name.setOnClickListener(null);
     }
 
     @Override
@@ -188,10 +220,23 @@ public class MyDetailActivity extends BaseActivity implements View.OnClickListen
                 intent.setClass(this,NickNameActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.mRelative5:
+                startActivity(new Intent(this,ResetPasswordActivity.class));
+                break;
             //退出登录
             case R.id.btn_out:
+                dialog1.show();
+                break;
+            case R.id.btn_cancel:
+                dialog1.dismiss();
+                break;
+            case R.id.btn_ok:
+                dialog1.dismiss();
                 startActivity(new Intent(MyDetailActivity.this,LoginActivity.class));
                 ShareUtils.deleShare(this,"isLogin");
+                break;
+            case R.id.tv_real_name:
+                startActivity(new Intent(MyDetailActivity.this,RealActivity.class));
                 break;
             //相册
             case R.id.tv_album:
@@ -358,15 +403,14 @@ public class MyDetailActivity extends BaseActivity implements View.OnClickListen
             Gson gson2=new Gson();
             String user_info=gson2.toJson(userBaen);
             ShareUtils.putString(this,"user_info",user_info);
-            Toast.makeText(this,"修改成功!",Toast.LENGTH_SHORT).show();
+            ToastUtils.showToastShort(this,"修改成功!");
             ShareUtils.putBoolean(this,"isUp",true);
         }else if (userRequest.getResultCode()==1){
-            Toast.makeText(this,"修改失败!",Toast.LENGTH_SHORT).show();
+            ToastUtils.showToastShort(this,"修改失败!");
         }else if (userRequest.getResultCode()==0){
-            Toast.makeText(this,"未收到数据!",Toast.LENGTH_SHORT).show();
+            ToastUtils.showToastShort(this,"未收到数据!");
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

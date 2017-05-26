@@ -29,6 +29,7 @@
             android:layout_marginRight="10dp"
             />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/mRelative2"
         android:layout_marginTop="10dp"
@@ -37,7 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/tv_nick"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
@@ -46,7 +46,6 @@
             android:layout_height="wrap_content"
             android:text="昵称"/>
         <ImageView
-            android:id="@+id/back1"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="10dp"
@@ -57,17 +56,13 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="200dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_nick"
+            android:layout_centerInParent="true"
             />
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"/>
+
     <RelativeLayout
         android:id="@+id/mRelative3"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="2dp"
         android:background="@android:color/white"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
@@ -90,6 +85,58 @@
             android:layout_marginRight="10dp"
             />
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/mRelative4"
+        android:layout_marginTop="2dp"
+        android:background="@android:color/white"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textSize="15sp"
+            android:textColor="#2c2c2c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="实名认证"/>
+        <TextView
+            android:id="@+id/tv_real_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mRelative5"
+        android:layout_marginTop="2dp"
+        android:background="@android:color/white"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textSize="15sp"
+            android:textColor="#2c2c2c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重置密码"/>
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/to_back1"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
     <Button
         android:layout_marginTop="10dp"
         android:id="@+id/btn_out"
